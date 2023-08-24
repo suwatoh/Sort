@@ -1,25 +1,25 @@
 // 交換用の関数
-function swap(array, idx1, idx2) {
-  const tmp = array[idx1];
-  array[idx1] = array[idx2];
-  array[idx2] = tmp;
+function swap(A, idx1, idx2) {
+  const tmp = A[idx1];
+  A[idx1] = A[idx2];
+  A[idx2] = tmp;
 }
 
-function insertionSort(array) {
-  for (let i = 1; i < array.length; ++i) {
+function insertionSort(A) {
+  for (let i = 1; i < A.length; ++i) {
     // 挿入する値を一時的に保存する
-    let currentVal = array[i];
+    let currentVal = A[i];
     let j = i - 1;
     // 挿入位置まで入れ替え
-    while (j >= 0 && array[j] > currentVal) {
-      swap(array, j, j + 1);
+    while (j >= 0 && A[j] > currentVal) {
+      swap(A, j, j+1);
       j--;
     }
   }
 }
 
 // ヒープ化
-function heapify(array, i, max) {
+function heapify(A, i, max) {
   let index;
   let leftChild;
   let rightChild;
@@ -34,12 +34,12 @@ function heapify(array, i, max) {
     rightChild = leftChild + 1;
 
     // 左の子があって親より大きければ選択
-    if (leftChild < max && array[leftChild] > array[index]) {
+    if (leftChild < max && A[leftChild] > A[index]) {
       index = leftChild;
     }
 
     // 右の子があって左の子より大きければ選択
-    if (rightChild < max && array[rightChild] > array[index]) {
+    if (rightChild < max && A[rightChild] > A[index]) {
       index = rightChild;
     }
 
@@ -49,22 +49,22 @@ function heapify(array, i, max) {
     }
 
     // 親と選択した子の交換
-    swap(array, i, index);
+    swap(A, i, index);
 
     // 子の番号を親の番号として続行
     i = index;
   }
 }
 
-function heapSort(array) {
+function heapSort(A) {
   // ヒープの構築
-  for (let i = Math.floor((array.length - 1) / 2); i >= 0; --i) {
-    heapify(array, i, array.length);
+  for (let i = Math.floor((A.length - 1) / 2); i >= 0; --i) {
+    heapify(A, i, A.length);
   }
 
-  for (let j = array.length - 1; j > 0; --j) {
-    swap(array, 0, j);
-    heapify(array, 0, j);
+  for (let j = A.length - 1; j > 0; --j) {
+    swap(A, 0, j);
+    heapify(A, 0, j);
   }
 }
 
@@ -89,39 +89,39 @@ function merge(L, R) {
   return B;
 }
 
-function mergeSort(array) {
-  if (array.length < 2) {
-    return array;
+function mergeSort(A) {
+  if (A.length < 2) {
+    return A;
   }
 
-  let middle = Math.floor(array.length / 2);
-  let left = array.slice(0, middle);
-  let right = array.slice(middle);
+  let middle = Math.floor(A.length / 2);
+  let left = A.slice(0, middle);
+  let right = A.slice(middle);
 
   return merge(mergeSort(left), mergeSort(right));
 }
 
-function quickSort(array, left=0, right=array.length-1) {
+function quickSort(A, left=0, right=A.length-1) {
   // 長さ1なら終了
   if (left >= right) return;
 
   // ピボットを選ぶ(今回は先頭要素)
-  const pivot = array[left];
+  const pivot = A[left];
 
   // ピボットより小さい値を左側へ、大きい値を右側へグループ分けする
   let i = left;
   for (let j = left + 1; j <= right; ++j) {
     // ピボット未満の要素があったら左に詰めていく
-    if (array[j] < pivot) {
-      swap(array, ++i, j);
+    if (A[j] < pivot) {
+      swap(A, ++i, j);
     }
   }
   // ピボット(先頭要素)と左側グループの末尾とを交換
-  swap(array, i, left);
+  swap(A, i, left);
 
   // 分割して再帰的に処理
-  quickSort(array, left, i - 1);  // ピボットの左側
-  quickSort(array, i + 1, right); // ピボットの右側
+  quickSort(A, left, i - 1);  // ピボットの左側
+  quickSort(A, i + 1, right); // ピボットの右側
 }
 
 
